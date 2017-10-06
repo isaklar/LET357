@@ -1,0 +1,36 @@
+---------------------------------------------
+Names: Isak & Gabriel
+Course: TDA357 Databases
+Lab: 2
+---------------------------------------------
+
+Student relation
+ssn -> name, studentID
+ssn -> program
+ssn -> branch
+studentID -> ssn,name
+studentID -> program
+studentID -> branch
+
+
+Course relation
+code -> credits, abbreviation, name
+
+
+
+LimitedCourse relation
+code -> #seats
+
+
+hasRead relation
+course, ssn -> grade
+
+
+Queue relation
+course, date-time -> ssn
+ssn, course -> date-time
+
+
+Department relation
+abbreviation - > name
+name -> abbreviation

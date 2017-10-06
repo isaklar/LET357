@@ -1,0 +1,96 @@
+--------Listing information-----------
+  Listing information for a student who does not fulfil the requirements
+  for graduation.
+
+    java -cp postgresql-9.4.1212.jar:. StudentPortal 2
+
+  Listing information for a student who fulfils the requirements for
+  graduation
+
+    java -cp postgresql-9.4.1212.jar:. StudentPortal 1
+
+--------Registering and unregistering from courses----------
+
+  Register a student for an unrestricted course, and show that they end up
+  registered.
+
+    java -cp postgresql-9.4.1212.jar:. StudentPortal 1
+    r TSNLIM
+    select * from registrations where course = 'TSNLIM';
+
+  Register the same student fro the same course and, show that the student gets
+  an error message.
+
+    "r TSNLIM"
+
+  Unregister the student from the course.
+
+    "u TSNLIM"
+
+  Unregister the student again from the same course and show that it doesn´t
+  crash you program.
+
+    "u TSNLIM"
+
+  Register a student for a course that they don´t have the prerequisites for,
+  and show that the registration doesn´t go through.
+
+    "r TESRE1"
+
+    select * from registrations where course = 'TESRE1';
+
+--------Restricted courses------------
+  setup:
+    insert into registrations values(1,'TESLIM');
+    insert into registrations values(2,'TESLIM');
+    insert into registrations values(3,'TESLIM');
+    insert into registrations values(4,'TESLIM');
+    select * from registrations where course = 'TESLIM';
+    select * from coursequeuepositions where course = 'TESLIM';
+
+  Unregister a registerd studen from this course. Show that the first
+  student from the queue ended up as registered.
+
+    java -cp postgresql-9.4.1212.jar:. StudentPortal 1
+
+    "u TESLIM"
+
+    select * from registrations where course = 'TESLIM';
+
+  Register the unregistered student again.
+  Show that they ended up last in queue.
+
+    "r TESLIM"
+
+    select * from coursequeuepositions where course = 'TESLIM';
+
+  Unregister this student atain. Show that the student was removed from the
+  queue, that no student was registered on the course as a result of this,
+  and that the queue otherwise stays as before.
+
+  "u TESLIM"
+
+  select * from coursequeuepositions where course = 'TESLIM';
+
+--------Overfull courses------------------
+  setup:
+    delete from registrations where ssn = 4 and course = 'TESLIM';
+    insert into registeredto values(4,'TESLIM');
+
+  Attempt to register a student for the overfull course. Show that this student
+  is placed on the waitinglist.
+
+    java -cp postgresql-9.4.1212.jar:. StudentPortal 1
+
+    "r TESLIM"
+
+    select * from registrations where course = 'TESLIM';
+
+  Unregister a student from the overfull course. Show that no student is moved
+  from the queue to being registerd as a result.
+
+    java -cp postgresql-9.4.1212.jar:. StudentPortal 4
+
+    "u TESLIM"
+
+    select * from registrations where course = 'TESLIM';

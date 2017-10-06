@@ -1,0 +1,79 @@
+---------------------------------------------
+Names: Isak & Gabriel
+Course: TDA357 Databases
+Lab: 1
+---------------------------------------------
+students(_ssn_, studentID, name, program)
+	program -> programs.name
+	studentID unique
+
+
+programs(_name_, abbrevation)
+
+
+branches(_name_, _program_)
+	program -> programs.name
+
+
+departments(_abbreviation_, name)
+	name unique
+
+classifications(_type_)
+
+
+courses(_code_, credits, department)
+	department -> department.abbreviation
+
+
+limitedCourses(_code_, #seats)
+	code -> courses.code
+
+
+isPartOf(_ssn_, branch, program)
+	ssn -> students.ssn
+  (branch, program) -> branches.(name, program)
+	(ssn, program) -> students.(ssn, program)
+
+hasRead(_ssn_,  _course_, grade)
+	ssn -> students.ssn
+	course  -> courses.code
+
+
+registeredTo(_studentID_, _course_)
+	studentID -> students.studentID
+	course -> courses.code
+
+
+mandatoryForBranch(_name_,  _program_, _course_)
+	(name, program) -> branches.(name, program)
+	course -> courses.code
+
+
+recommended(_name_, _program_,  _course_)
+	 (name, program) -> branches.(name, program)
+	 course -> courses.code
+
+host(_abbreviation_, _program_)
+	abbreviation -> departments.abbreviation
+	program -> programs.name
+
+
+queue(_ssn_, _course_, date-time)
+	ssn -> students.ssn
+	course -> limitedCourses.code
+	(date-time, course) unique
+
+
+mandatoryForProgram(_program_, _course_)
+	program -> programs.name
+	course -> course.code
+
+
+hasClassification(_courseCode_, _classificationType_)
+	courseCode -> courses.code
+	classificationType -> classification.type
+
+
+requires(_courseOne_,_courseTwo_)
+	courseOne -> courses.code
+	courseTwo -> courses.code
